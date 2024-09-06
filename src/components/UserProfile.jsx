@@ -1,17 +1,22 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
 const UserProfile = () => {
   const [details, setDetails] = useState({});
   const [showBio, setShowBio] = useState(false);
 
   useEffect(() => {
-    fetch("https://jsonplaceholder.typicode.com/users/1")
-      .then((res) => {
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setDetails(data);
-      });
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/users/1"
+        );
+        setDetails(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchUserData();
   }, []);
   const handleClick = () => {
     setShowBio(!showBio);
